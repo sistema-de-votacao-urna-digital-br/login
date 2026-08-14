@@ -1,0 +1,145 @@
+/* =============================================================== */
+/* RESET E CONFIGURAÇÃO GLOBAL DE SERIEDADE VISUAL */
+/* =============================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    color: #333333;
+}
+
+/* =============================================================== */
+/* CONTAINER PRINCIPAL DO CARTÃO */
+/* =============================================================== */
+.card-container {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 440px;
+    padding: 40px 35px;
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+    border-top: 5px solid #0056b3;
+}
+
+h2 {
+    color: #1a252f;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    text-align: center;
+    letter-spacing: -0.5px;
+}
+
+.instrucao {
+    font-size: 0.9rem;
+    color: #555555;
+    text-align: center;
+    margin-bottom: 25px;
+    line-height: 1.4;
+    background-color: #eef5fc;
+    padding: 10px 14px;
+    border-left: 4px solid #0056b3;
+    border-radius: 4px;
+}
+
+/* =============================================================== */
+/* FORMULÁRIO E CAMPOS DE ENTRADA */
+/* =============================================================== */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.campo-grupo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: left;
+}
+
+label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #34495e;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+input {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 1.1rem;
+    border: 2px solid #cbd5e1;
+    border-radius: 8px;
+    background-color: #f8fafc;
+    transition: all 0.25s ease;
+    outline: none;
+    letter-spacing: 3px; /* Espaçamento elegante para os pontos de senha */
+}
+
+input:focus {
+    border-color: #0056b3;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(0, 86, 179, 0.15);
+}
+
+/* =============================================================== */
+/* MASCARAMENTO INSTANTÂNEO (NÃO EXIBE LETRAS POR NENHUM SEGUNDO) */
+/* =============================================================== */
+.campo-oculto {
+    -webkit-text-security: disc !important;
+    text-security: disc !important;
+}
+
+/* Esconde indicação visual do IE/Edge para não quebrar o layout */
+input::-ms-reveal,
+input::-ms-clear {
+    display: none;
+}
+
+/* =============================================================== */
+/* BOTÃO PRINCIPAL DE AÇÃO */
+/* =============================================================== */
+.btn-principal {
+    margin-top: 10px;
+    padding: 15px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+    background-color: #0056b3;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(0, 86, 179, 0.3);
+}
+
+.btn-principal:hover {
+    background-color: #004085;
+    transform: translateY(-1px);
+}
+
+.btn-principal:active {
+    transform: translateY(1px);
+    box-shadow: none;
+}
+
+/* =============================================================== */
+/* CLASSE UTILITÁRIA DE OCULTAÇÃO */
+/* =============================================================== */
+.escondido {
+    display: none !important;
+}
