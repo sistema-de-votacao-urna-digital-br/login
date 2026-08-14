@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso do Operador - Urna Escolar</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+    <div class="card-container">
+        <div id="aba-login">
+            <h2>Autenticação do Operador</h2>
+            <form onsubmit="fazerLogin(event)">
+                
+                <div class="campo-grupo">
+                    <label for="login-usuario">Usuário do Operador:</label>
+                    <input type="text" id="login-usuario" class="campo-oculto" placeholder="Digite o usuário" required autocomplete="off">
+                </div>
+
+                <div class="campo-grupo">
+                    <label for="senha-usuario">Senha do Operador ($\pi$):</label>
+                    <input type="text" id="senha-usuario" class="campo-oculto" placeholder="Digite a senha" required autocomplete="off">
+                </div>
+
+                <button type="submit" class="btn-principal">Entrar no Sistema</button>
+            </form>
+        </div>
+
+        <div id="aba-chave-mestra" class="escondido">
+            <h2>Cadastrar Chave Mestra</h2>
+            <p class="instrucao">Primeiro acesso detectado! Cadastre a Chave Mestra de 6 dígitos numéricos que será usada nas votações e resultados.</p>
+            
+            <form onsubmit="salvarChaveMestra(event)">
+                <div class="campo-grupo">
+                    <label for="nova-chave">Nova Chave Mestra (6 números):</label>
+                    <input type="text" id="nova-chave" class="campo-oculto" maxlength="6" pattern="\d{6}" placeholder="Ex: 123456" required autocomplete="off">
+                </div>
+
+                <button type="submit" class="btn-principal">Salvar e Criptografar Chave</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>
+
