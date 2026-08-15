@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urna Eletrônica - Votação</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        /* Tela de Bloqueio de Volume */
+        #volume-blocker {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        #volume-blocker button {
+            margin-top: 20px;
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        /* Container Principal da Urna */
+        .urna-container {
+            width: 900px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+        }
+        .main-content {
+            display: flex;
+            padding: 20px;
+            justify-content: space-between;
+        }
+        .voting-screen {
+            flex: 2;
+            padding-right: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .display-voto {
+            font-size: 32px;
+            letter-spacing: 15px;
+            padding: 15px;
+            border: 2px solid #ccc;
+            background: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            min-height: 70px;
+        }
+        /* Teclado Numérico Dinâmico */
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            max-width: 300px;
+        }
+        .keypad button {
+            padding: 20px;
+            font-size: 24px;
+            background: #e0e0e0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .keypad button:hover {
+            background: #d0d0d0;
+        }
+        .actions-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            justify-content: center;
+            border-left: 2px solid #eee;
+            padding-left: 20px;
+        }
+        .btn-acao {
+            padding: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+        }
+        .btn-branco { background-color: #f1c40f; color: black; }
+        .btn-corrige { background-color: #e67e22; }
+        .btn-confirma { background-color: #2ecc71; }
+        
+        /* Botões Administrativos Inferiores */
+        .admin-footer {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #ddd;
+        }
+        .btn-admin {
+            background: #c0392b;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* Tela de Contagem Regressiva Pós-Voto */
+        #countdown-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 100;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 40px;
+        }
+        #countdown-number {
+            font-size: 80px;
+            color: #2ecc71;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        /* Modal da Chave Mestra */
+        #master-modal {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(44, 62, 80, 0.95);
+            z-index: 200;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+        .master-input {
+            font-size: 28px;
+            letter-spacing: 10px;
+            padding: 10px;
+            text-align: center;
+            width: 250px;
+            margin-bottom: 15px;
+        }
+        .legend-box {
+            background: #1a252f;
+            border: 1px dashed #7f8c8d;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #7f8c8d; /* Discreto por padrão */
+            transition: color 0.2s;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Trava Inicial de Volume / Interação -->
+    <div id="volume-blocker">
+        <h2>Configuração de Segurança</h2>
+        <p>Para iniciar a urna, certifique-se de que o volume está no máximo.</p>
+        <button onclick="liberarSistema()">Confirmar Volume Máximo</button>
+    </div>
+
+    <!-- Container Principal -->
+    <div class="urna-container" id="urnaContainer">
+        <header id="nomeVotacaoHeader">Votação Escolar</header>
+        
+        <div class="main-content">
+            <div class="voting-screen">
+                <div class="display-voto" id="displayVoto">_</div>
+                <div class="keypad" id="keypad">
+                    <!-- Gerado via JavaScript -->
+                </div>
+            </div>
+
+            <div class="actions-panel">
+                <button class="btn-acao btn-branco" onclick="votarBranco()">BRANCO</button>
+                <button class="btn-acao btn-corrige" onclick="corrigirVoto()">CORRIGIR</button>
+                <button class="btn-acao btn-confirma" onclick="confirmarVoto()">CONFIRMAR</button>
+            </div>
+        </div>
+
+        <div class="admin-footer">
+            <button class="btn-admin" onclick="pedirChaveMestra('cancelar')">Cancelar Votação</button>
+            <button class="btn-admin" onclick="pedirChaveMestra('encerrar')">Encerrar Votação</button>
+        </div>
+
+        <!-- Tela de Contagem Regressiva -->
+        <div id="countdown-overlay">
+            <div>VOTO CONFIRMADO</div>
+            <div id="countdown-number">5</div>
+        </div>
+
+        <!-- Modal de Chave Mestra -->
+        <div id="master-modal">
+            <h3>Autenticação da Chave Mestra</h3>
+            <p>Segure a tecla <strong>W</strong> para visualizar a legenda de substituição:</p>
+            <div class="legend-box" id="legendBox">Legenda oculta</div>
+            <input type="password" id="masterInput" class="master-input" readonly placeholder="••••••">
+            <div class="keypad" id="masterKeypad"></div>
+            <button class="btn-acao btn-corrige" style="margin-top:15px;" onclick="fecharChaveMestra()">Voltar</button>
+        </div>
+    </div>
+
+    <!-- Alarme Sonoro (Áudio embutido) -->
+    <audio id="alarmSound" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" preload="auto"></audio>
+
+    <script>
+        let votoAtual = "";
+        let acaoAdminPendente = null;
+        let senhaDigitadaReal = "";
+        let mapaSubstituicao = {};
+
+        function tocarAlarme() {
+            const audio = document.getElementById('alarmSound');
+            audio.currentTime = 0;
+            audio.play().catch(() => {});
+        }
+
+        function liberarSistema() {
+            // Remove o bloqueio inicial
+            document.getElementById('volume-blocker').style.display = 'none';
+            embaralharTeclado();
+        }
+
+        function embaralharTeclado() {
+            const keypad = document.getElementById('keypad');
+            keypad.innerHTML = '';
+            let numeros = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+            numeros.sort(() => Math.random() - 0.5);
+
+            numeros.forEach(num => {
+                let btn = document.createElement('button');
+                btn.innerText = num;
+                btn.onmousedown = () => adicionarDigito(num);
+                keypad.appendChild(btn);
+            });
+        }
+
+        function adicionarDigito(num) {
+            if (votoAtual.length < 5) {
+                votoAtual += num;
+                document.getElementById('displayVoto').innerText = votoAtual;
+            }
+        }
+
+        function corrigirVoto() {
+            votoAtual = "";
+            document.getElementById('displayVoto').innerText = "_";
+            embaralharTeclado();
+        }
+
+        function confirmarVoto() {
+            if (votoAtual === "") return; // Exigir preenchimento mínimo ou tratar branco/nulo
+            
+            // Dispara contagem regressiva de 5 segundos
+            const overlay = document.getElementById('countdown-overlay');
+            const countNum = document.getElementById('countdown-number');
+            overlay.style.display = 'flex';
+            let segundos = 5;
+            countNum.innerText = segundos;
+
+            let intervalo = setInterval(() => {
+                segundos--;
+                countNum.innerText = segundos;
+                if (segundos <= 0) {
+                    clearInterval(intervalo);
+                    overlay.style.display = 'none';
+                    votoAtual = "";
+                    document.getElementById('displayVoto').innerText = "_";
+                    embaralharTeclado();
+                }
+            }, 1000);
+
+            // Aqui entra a chamada de envio via fetch para o Google Apps Script
+        }
+
+        function votarBranco() {
+            votoAtual = "BRANCO";
+            document.getElementById('displayVoto').innerText = "BRANCO";
+        }
+
+        // Eventos para a Chave Mestra e Tecla W
+        function gerarNovaTabelaMestra() {
+            let originais = [0,1,2,3,4,5,6,7,8,9];
+            let embaralhados = [...originais].sort(() => Math.random() - 0.5);
+            mapaSubstituicao = {};
+            let textoLegenda = "Legenda: ";
+            for(let i=0; i<10; i++) {
+                mapaSubstituicao[embaralhados[i]] = originais[i];
+                textoLegenda += `${embaralhados[i]}->${originais[i]} | `;
+            }
+            document.getElementById('legendBox').innerText = textoLegenda;
+            
+            // Monta o teclado da Chave Mestra
+            const masterKeypad = document.getElementById('masterKeypad');
+            masterKeypad.innerHTML = '';
+            embaralhados.forEach(num => {
+                let btn = document.createElement('button');
+                btn.innerText = num;
+                btn.onmousedown = () => digitarChaveMestra(num);
+                masterKeypad.appendChild(btn);
+            });
+        }
+
+        function pedirChaveMestra(acao) {
+            acaoAdminPendente = acao;
+            senhaDigitadaReal = "";
+            document.getElementById('masterInput').value = "";
+            gerarNovaTabelaMestra();
+            document.getElementById('master-modal').style.display = 'flex';
+        }
+
+        function fecharChaveMestra() {
+            document.getElementById('master-modal').style.display = 'none';
+        }
+
+        function digitarChaveMestra(numVisual) {
+            let numeroReal = mapaSubstituicao[numVisual];
+            senhaDigitadaReal += numeroReal;
+            document.getElementById('masterInput').value = "•".repeat(senhaDigitadaReal.length);
+            
+            // Validação de exemplo da Chave Mestra (ex: "123456")
+            if (senhaDigitadaReal.length >= 6) {
+                if (senhaDigitadaReal === "123456") {
+                    alert(`Ação autorizada: ${acaoAdminPendente}`);
+                    fecharChaveMestra();
+                } else {
+                    tocarAlarme();
+                    alert("Senha incorreta!");
+                    senhaDigitadaReal = "";
+                    document.getElementById('masterInput').value = "";
+                    gerarNovaTabelaMestra();
+                }
+            }
+        }
+
+        // Gatilho da Tecla W para revelar/ocultar a legenda discretamente
+        window.addEventListener('keydown', (e) => {
+            if (e.key.toLowerCase() === 'w') {
+                document.getElementById('legendBox').style.color = '#ecf0f1'; // Mais visível para a professora
+                document.getElementById('legendBox').style.background = '#2c3e50';
+            }
+            if (e.key === 'Enter') {
+                if(document.getElementById('master-modal').style.display !== 'flex') {
+                    confirmarVoto();
+                }
+            }
+        });
+
+        window.addEventListener('keyup', (e) => {
+            if (e.key.toLowerCase() === 'w') {
+                document.getElementById('legendBox').style.color = '#7f8c8d'; // Discreto de novo
+                document.getElementById('legendBox').style.background = '#1a252f';
+            }
+        });
+    </script>
+</body>
+</html>
