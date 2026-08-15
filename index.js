@@ -1,6 +1,6 @@
 // Credenciais de Acesso do Operador (Módulo 1.0.1)
 const USUARIO_CORRETO = "SELMAfroIsDASilvaBOTELHO";
-const SENHA_PI_CORRETA = "3.141592653589793238462643383279";
+const SENHA_PI_CORRETA = "3.1415926535";
 
 // ==========================================================
 // 1. PASSO 1: LOGIN DO OPERADOR (PRIMEIRA BARREIRA)
