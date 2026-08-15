@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Principal - Urna Escolar</title>
+    <link rel="stylesheet" href="menu.css">
+
+    <!-- Guarda-Costas de Segurança embutido -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            if (sessionStorage.getItem("autenticado") !== "true") {
+                alert("Acesso negado! Faça o login de operador primeiro.");
+                window.location.href = "index.html";
+            }
+        });
+    </script>
+</head>
+<body>
+
+    <div class="menu-container">
+        <h2>Menu Principal</h2>
+        <p class="subtitulo">Como deseja continuar?</p>
+
+        <!-- Botões empilhados e centralizados -->
+        <div class="botoes-grupo">
+            <!-- Iniciar Votação (Verde) -->
+            <button class="btn-menu btn-votacao" onclick="irParaVotacao()">
+                <span class="icone">🗳️</span> Iniciar Votação
+            </button>
+
+            <!-- Ver Resultados (Azul) -->
+            <button class="btn-menu btn-resultados" onclick="irParaResultados()">
+                <span class="icone">📊</span> Ver Resultados
+            </button>
+        </div>
+    </div>
+
+    <script src="menu.js"></script>
+</body>
+</html>
+
