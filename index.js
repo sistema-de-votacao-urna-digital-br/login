@@ -1,5 +1,5 @@
 // Credenciais de Acesso do Operador (Módulo 1.0.1)
-const USUARIO_CORRETO = "SELMAfroIsDASilvaBOTELHO";
+const USUARIO_CORRETO = "SELMA";
 const SENHA_PI_CORRETA = "3.1415926535";
 
 // ==========================================================
