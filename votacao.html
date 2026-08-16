@@ -3,68 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Urna Eletrônica - Votação</title>
+    <title>Urna Eletrônica - Configuração e Votação</title>
     <link rel="stylesheet" href="votacao.css">
 </head>
 <body>
 
-    <!-- Trava de Volume Máximo / Condição de Uso -->
-    <div id="volume-blocker">
-        <div class="volume-box">
-            <h2>Aviso de Segurança</h2>
-            <p>Para garantir que os sons de confirmação e alerta funcionem perfeitamente e evitar votos duplicados, ajuste o volume do dispositivo para o <strong>MÁXIMO</strong>.</p>
-            <button onclick="liberarSistema()">Volume no Máximo - Iniciar</button>
+    <!-- Tela de Bloqueio de Volume (Comportamental) -->
+    <div id="volume-blocker" class="volume-blocker">
+        <div class="volume-aviso-box">
+            <h2>⚠️ Atenção: Configuração de Áudio</h2>
+            <p>Para garantir a segurança, a auditoria e o feedback sonoro correto desta votação, certifique-se de que o volume do seu dispositivo está no <strong>máximo</strong>.</p>
+            <button id="btnLiberarVolume" class="btn-acao btn-confirma">Entendido, Volume no Máximo</button>
         </div>
     </div>
 
     <!-- Container Principal da Urna -->
-    <div class="urna-container" id="urnaContainer">
-        <header id="nomeVotacaoHeader">Votação Escolar</header>
-        
-        <div class="main-content">
-            <div class="voting-screen">
-                <div class="display-voto" id="displayVoto">_</div>
-                <!-- Teclado Numérico Dinâmico (Touch / Mouse) -->
-                <div class="keypad" id="keypad"></div>
+    <div class="urna-container">
+        <header>
+            <h1>ELEIÇÃO ESCOLAR</h1>
+            <div id="nome-votaçoes-display">Configuração da Votação</div>
+        </header>
+
+        <!-- Seção Dinâmica / Telas do Sistema -->
+        <main id="app-main">
+            <!-- O conteúdo das telas (Menu, Configuração, Chave Mestra, Urna) será injetado aqui via JS -->
+        </main>
+    </div>
+
+    <!-- Modal da Chave Mestra (Acionado com a tecla W) -->
+    <div id="master-modal" class="master-modal" style="display: none;">
+        <div class="master-content">
+            <h3>🔑 Acesso Administrativo - Chave Mestra</h3>
+            <p>Digite a Chave Mestra:</p>
+            <input type="password" id="input-master" placeholder="Digite os dígitos...">
+            <div id="legenda-container" class="legenda-container">
+                <!-- A legenda aleatória aparecerá aqui apenas enquanto a tecla W estiver pressionada -->
             </div>
-
-            <div class="actions-panel" id="actionsPanel">
-                <button class="btn-acao btn-branco" id="btnBranco" onclick="votarBranco()">BRANCO</button>
-                <button class="btn-acao btn-corrige" onclick="corrigirVoto()">CORRIGIR</button>
-                <button class="btn-acao btn-confirma" onclick="confirmarVoto()">CONFIRMAR</button>
-            </div>
-        </div>
-
-        <div class="admin-footer">
-            <button class="btn-admin btn-cancelar" onclick="pedirChaveMestra('cancelar')">Cancelar Votação</button>
-            <button class="btn-admin btn-encerrar" onclick="pedirChaveMestra('encerrar')">Encerrar Votação</button>
-        </div>
-
-        <!-- Tela de Contagem Regressiva Pós-Voto (5 segundos) -->
-        <div id="countdown-overlay">
-            <div class="countdown-title">VOTO CONFIRMADO</div>
-            <div id="countdown-number">5</div>
-        </div>
-
-        <!-- Modal de Chave Mestra -->
-        <div id="master-modal">
-            <div class="master-content">
-                <h3>Autenticação da Chave Mestra</h3>
-                <p>Segure a tecla <strong>W</strong> para visualizar a legenda de substituição:</p>
-                <div class="legend-box" id="legendBox">Legenda oculta</div>
-                <input type="password" id="masterInput" class="master-input" readonly placeholder="••••••">
-                <div class="keypad" id="masterKeypad"></div>
-                <button class="btn-acao btn-corrige" style="margin-top:15px; width: 100%;" onclick="fecharChaveMestra()">Voltar</button>
-            </div>
+            <button id="btnFecharMaster" class="btn-acao btn-corrige">Fechar</button>
         </div>
     </div>
 
-    <!-- Sons do Sistema -->
-    <audio id="beepSound" src="https://actions.google.com/sounds/v1/ui/button_click.ogg" preload="auto"></audio>
-    <audio id="confirmSound" src="https://actions.google.com/sounds/v1/cartoon/cling.ogg" preload="auto"></audio>
-    <audio id="alarmSound" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" preload="auto"></audio>
+    <!-- Contagem Regressiva de 5 segundos (Após o voto) -->
+    <div id="countdown-overlay" style="display: none;">
+        <div class="countdown-box">
+            <h2>VOTO CONFIRMADO</h2>
+            <div id="countdown-timer">5</div>
+            <p>Aguarde a próxima votação...</p>
+        </div>
+    </div>
 
-    <!-- Conexões JavaScript -->
+    <!-- Elementos de Áudio Personalizados -->
+    <audio id="beepSound" src="bip.mp3" preload="auto"></audio>
+    <audio id="confirmSound" src="pilili.mp3" preload="auto"></audio>
+    <audio id="alarmSound" src="alarme.mp3" preload="auto"></audio>
+
+    <!-- Conexão com os arquivos de script externos -->
     <script src="config.js"></script>
     <script src="votacao.js"></script>
 </body>
