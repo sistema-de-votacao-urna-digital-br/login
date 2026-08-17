@@ -15,33 +15,18 @@
     </header>
 
     <main class="grid-votacoes" id="gridVotacoes">
-        <!-- Exemplo de Card 1: Tipo 1 (Verde) -->
-        <div class="card-votacao" id="vota-1">
+        <!-- Card de Legenda / Guia Explicativo (Fixo) -->
+        <div class="card-votacao card-legenda" id="card-legenda">
             <div>
                 <div class="card-header">
-                    <span class="card-title">Eleição Grêmio Estudantil</span>
-                    <span class="status-badge status-1">Tipo 1</span>
+                    <span class="card-title">(Nome da Votação)</span>
+                    <span class="status-badge status-legenda">Tipo (1 a 5)</span>
                 </div>
-                <p class="status-desc">Um candidato ultrapassou a marca de 50% dos votos válidos!</p>
+                <p class="status-desc">Detalhamento do tipo da votação (indica o status do resultado, como maioria absoluta ou necessidade de refazer).</p>
             </div>
             <div class="card-actions">
-                <button class="btn-acao btn-ver" onclick="abrirConfiguracao('Eleição Grêmio Estudantil')">Ver</button>
-                <button class="btn-acao btn-excluir" onclick="iniciarExclusao('vota-1', 'Eleição Grêmio Estudantil')">Excluir</button>
-            </div>
-        </div>
-
-        <!-- Exemplo de Card 2: Tipo 5 (Vermelho) -->
-        <div class="card-votacao" id="vota-2">
-            <div>
-                <div class="card-header">
-                    <span class="card-title">Escolha do Orador</span>
-                    <span class="status-badge status-5">Tipo 5</span>
-                </div>
-                <p class="status-desc">Os votos brancos e nulos somados em porcentagem ultrapassaram o candidato mais votado. Necessidade imperativa de refazer!</p>
-            </div>
-            <div class="card-actions">
-                <button class="btn-acao btn-ver" onclick="abrirConfiguracao('Escolha do Orador')">Ver</button>
-                <button class="btn-acao btn-excluir" onclick="iniciarExclusao('vota-2', 'Escolha do Orador')">Excluir</button>
+                <button class="btn-acao btn-ver" disabled style="opacity: 0.6; cursor: default;">Ver</button>
+                <button class="btn-acao btn-excluir" disabled style="opacity: 0.6; cursor: default;">Excluir</button>
             </div>
         </div>
     </main>
@@ -52,9 +37,9 @@
             <h3 style="color: var(--accent-red);">Apagar Votação Permanentemente</h3>
             <p>Tem certeza que quer apagar essa votação? A votação será apagada, essa ação não poderá ser desfeita e será apagada para sempre.</p>
             <p id="instrucaoExclusao" style="font-weight: 600; color: var(--text-main);"></p>
-            
+
             <input type="text" id="inputConfirmacao" class="modal-input" placeholder="Digite exatamente o texto solicitado..." onpaste="return false" oncopy="return false" oncut="return false">
-            
+
             <div class="modal-actions">
                 <button class="btn-modal-cancel" onclick="fecharModalExclusao()">Cancelar</button>
                 <button class="btn-modal-confirm" id="btnConfirmarExclusao" onclick="executarExclusao()" disabled style="opacity: 0.5;">Apagar para Sempre</button>
