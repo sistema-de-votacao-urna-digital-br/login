@@ -104,7 +104,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     <select id="qtd-digitos">
                         <option value="2">2 Dígitos</option>
                         <option value="3">3 Dígitos</option>
-                        <option value="4">4 Dígitos</option>
+                        <option value="4">4 Dígitos</option> 
+                        <option value="5">5 Dígitos</option>
+
                     </select>
                 </div>
 
