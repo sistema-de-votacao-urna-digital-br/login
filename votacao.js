@@ -266,27 +266,32 @@ document.addEventListener('DOMContentLoaded', () => {
         btnConfirmarMaster.addEventListener('click', () => {
             let digitadoMascarado = inputMaster.value.trim();
             
-            // Converte o que foi digitado (mascarado) de volta para a chave real usando a legenda
-            // Inverte o dicionário legendaAtual para traduzir o mascarado para o real
+            if (!digitadoMascarado) {
+                alert("Por favor, digite a chave mestra.");
+                return;
+            }
+
+            // Cria o dicionário inverso garantindo chaves em string para evitar falhas de tipo
             let chaveInvertida = {};
             for (let real in legendaAtual) {
-                chaveInvertida[legendaAtual[real]] = real;
+                let mascarado = legendaAtual[real];
+                chaveInvertida[mascarado.toString()] = real.toString();
             }
 
             let senhaConvertidaParaReal = "";
             for (let i = 0; i < digitadoMascarado.length; i++) {
-                let digitoCaractere = parseInt(digitadoMascarado[i]);
-                if (chaveInvertida[digitoCaractere] !== undefined) {
-                    senhaConvertidaParaReal += chaveInvertida[digitoCaractere];
+                let digitoChar = digitadoMascarado[i];
+                if (chaveInvertida[digitoChar] !== undefined) {
+                    senhaConvertidaParaReal += chaveInvertida[digitoChar];
                 }
             }
 
             // Compara a senha convertida com a chave real mestra
-            if (senhaConvertidaParaReal === chaveRealMestra && senhaConvertidaParaReal !== "") {
+            if (senhaConvertidaParaReal === chaveRealMestra) {
                 masterModal.style.display = 'none';
+                inputMaster.value = '';
 
                 if (acaoPendenteChave === 'iniciar') {
-                    // Embaralhamento vertical dos candidatos antes de iniciar a urna
                     configVotacao.candidatos.sort(() => Math.random() - 0.5);
                     carregarTelaUrna();
                 } else if (acaoPendenteChave === 'cancelar') {
@@ -297,9 +302,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     window.location.href = "menu.html";
                 }
             } else {
+                alarmSound.currentTime = 0;
                 alarmSound.play().catch(() => {});
+                
                 inputMaster.value = '';
                 gerarLegendaAleatoria();
+                
                 alert("Chave Mestra incorreta! Legenda rebaralhada e campo limpo.");
             }
         });
