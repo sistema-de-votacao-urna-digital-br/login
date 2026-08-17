@@ -3,6 +3,16 @@
 // ============================================================================
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Liberar o aviso de volume inicial
+    const btnLiberarVolume = document.getElementById('btnLiberarVolume');
+    const volumeBlocker = document.getElementById('volume-blocker');
+
+    if (btnLiberarVolume && volumeBlocker) {
+        btnLiberarVolume.addEventListener('click', () => {
+            volumeBlocker.style.display = 'none';
+        });
+    }
+
     // Container principal onde as telas do fluxo serão injetadas
     const appMain = document.getElementById('app-main');
     const nomeVotacaoDisplay = document.getElementById('nome-votaçoes-display');
@@ -43,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ========================================================================
     function carregarTelaConfiguracao() {
         if (nomeVotacaoDisplay) nomeVotacaoDisplay.innerText = "Configuração da Votação";
-        
+
         appMain.innerHTML = `
             <div class="config-screen">
                 <div class="input-group">
@@ -171,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('btn-salvar-concluir').addEventListener('click', () => {
             configVotacao.qtdDigitos = parseInt(document.getElementById('qtd-digitos').value);
-            
+
             const blocos = containerCandidatos.querySelectorAll('.candidato-bloco');
             configVotacao.candidatos = [];
             let erro = false;
