@@ -14,6 +14,7 @@
         <div></div>
     </header>
 
+    <!-- VISÃO 1: Lista de Votações (Puxada da Planilha) -->
     <main class="grid-votacoes" id="gridVotacoes">
         <!-- Card de Legenda / Guia Explicativo (Fixo) -->
         <div class="card-votacao card-legenda" id="card-legenda">
@@ -31,7 +32,31 @@
         </div>
     </main>
 
-    <!-- Modal de Exclusão -->
+    <!-- VISÃO 2: Vitrine / Apuração Detalhada (Injetada via JS após a Chave Mestra) -->
+    <main class="apresentacao-container" id="visaoDetalhes" style="display: none;">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <button class="btn-acao btn-corrige" onclick="voltarParaListaResultados()">← Voltar para Lista</button>
+        </div>
+        <div id="container-resultados" class="grid-resultados">
+            <p class="carregando-texto">Buscando dados da planilha...</p>
+        </div>
+    </main>
+
+    <!-- Modal da Chave Mestra (Segurança com tecla W e legenda mascarada) -->
+    <div id="master-modal" class="master-modal" style="display: none;">
+        <div class="master-content">
+            <h3>🔑 Acesso Administrativo - Chave Mestra</h3>
+            <p>Digite a Chave Mestra:</p>
+            <input type="password" id="input-master" placeholder="Digite os dígitos..." onpaste="return false" oncopy="return false" oncut="return false">
+            <div id="legenda-container" class="legenda-container">
+                <!-- A legenda aleatória aparecerá aqui apenas enquanto a tecla W estiver pressionada -->
+            </div>
+            <button id="btnConfirmarMaster" class="btn-acao btn-confirma">Confirmar Chave</button>
+            <button id="btnFecharMaster" class="btn-acao btn-corrige">Fechar</button>
+        </div>
+    </div>
+
+    <!-- Modal de Exclusão Blindada -->
     <div class="modal-overlay" id="modalExclusao">
         <div class="modal-content">
             <h3 style="color: var(--accent-red);">Apagar Votação Permanentemente</h3>
@@ -47,7 +72,7 @@
         </div>
     </div>
 
-    <!-- Ponte com o Apps Script e Planilha -->
+    <!-- Conexão com a Ponte (config.js) e o Motor de Resultados -->
     <script src="config.js"></script>
     <script src="resultados.js"></script>
 </body>
