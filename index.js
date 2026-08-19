@@ -13,8 +13,17 @@ window.addEventListener("load", () => {
 
 function f(c) {
   c.preventDefault();
-  let d = document.getElementById("D").value.trim();
-  let e = document.getElementById("G").value.trim();
+  
+  let inputD = document.getElementById("D");
+  let inputG = document.getElementById("G");
+
+  if (!inputD || !inputG) {
+    alert("Erro: Campos de usuário ou senha não encontrados no HTML.");
+    return;
+  }
+
+  let d = inputD.value.trim();
+  let e = inputG.value.trim();
 
   if (t && d === t.usuario && e === t.senha) {
     sessionStorage.setItem("autenticado", "true");
@@ -32,7 +41,7 @@ function f(c) {
           s(t);
         } else {
           alert("Usuário ou Senha incorretos!");
-          document.getElementById("G").value = "";
+          if (inputG) inputG.value = "";
         }
       })
       .catch(c => {
@@ -41,7 +50,7 @@ function f(c) {
       });
   } else {
     alert("Usuário ou Senha incorretos! Verifique os dados digitados.");
-    document.getElementById("G").value = "";
+    if (inputG) inputG.value = "";
   }
 }
 
@@ -49,21 +58,30 @@ function s(c) {
   if (c && c.chaveExiste) {
     window.location.href = "menu.html";
   } else {
-    document.getElementById("B").classList.add("j");
-    document.getElementById("I").classList.remove("j");
+    let elB = document.getElementById("B");
+    let elI = document.getElementById("I");
+    if (elB) elB.classList.add("j");
+    if (elI) elI.classList.remove("j");
   }
 }
 
 function l(c) {
   c.preventDefault();
-  let d = document.getElementById("L").value.trim();
   
+  let inputL = document.getElementById("L");
+  if (!inputL) {
+    alert("Erro: Campo da Chave Mestra não encontrado no HTML.");
+    return;
+  }
+
+  let d = inputL.value.trim();
+
   if (6 !== d.length || isNaN(d)) {
     return void alert("A Chave Mestra deve conter exatamente 6 números!");
   }
-  
+
   let e = btoa(d);
-  
+
   fetch(URL_APPS_SCRIPT, {
     method: "POST",
     headers: { "Content-Type": "text/plain;charset=utf-8" },
