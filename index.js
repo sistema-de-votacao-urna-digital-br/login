@@ -13,8 +13,8 @@ window.addEventListener("load", () => {
 
 function f(c) {
   c.preventDefault();
-  let d = document.getElementById("d").value.trim();
-  let e = document.getElementById("g").value.trim();
+  let d = document.getElementById("D").value.trim();
+  let e = document.getElementById("G").value.trim();
 
   if (t && d === t.usuario && e === t.senha) {
     sessionStorage.setItem("autenticado", "true");
@@ -32,7 +32,7 @@ function f(c) {
           s(t);
         } else {
           alert("Usuário ou Senha incorretos!");
-          document.getElementById("g").value = "";
+          document.getElementById("G").value = "";
         }
       })
       .catch(c => {
@@ -41,7 +41,7 @@ function f(c) {
       });
   } else {
     alert("Usuário ou Senha incorretos! Verifique os dados digitados.");
-    document.getElementById("g").value = "";
+    document.getElementById("G").value = "";
   }
 }
 
@@ -49,14 +49,14 @@ function s(c) {
   if (c && c.chaveExiste) {
     window.location.href = "menu.html";
   } else {
-    document.getElementById("b").classList.add("j");
-    document.getElementById("i").classList.remove("j");
+    document.getElementById("B").classList.add("j");
+    document.getElementById("I").classList.remove("j");
   }
 }
 
 function l(c) {
   c.preventDefault();
-  let d = document.getElementById("m").value.trim();
+  let d = document.getElementById("L").value.trim();
   
   if (6 !== d.length || isNaN(d)) {
     return void alert("A Chave Mestra deve conter exatamente 6 números!");
