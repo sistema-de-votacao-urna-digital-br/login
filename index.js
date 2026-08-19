@@ -72,8 +72,8 @@ function s(c) {
   } else {
     let elB = document.getElementById("B");
     let elI = document.getElementById("I");
-    if (elB) elB.classList.add("j");
-    if (elI) elI.classList.remove("j");
+    if (elB) elB.classList.add("J");
+    if (elI) elI.classList.remove("J");
   }
 }
 
