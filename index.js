@@ -25,10 +25,20 @@ function f(c) {
   let d = inputD.value.trim();
   let e = inputG.value.trim();
 
-  if (t && d === t.usuario && e === t.senha) {
-    sessionStorage.setItem("autenticado", "true");
-    s(t);
-  } else if (!t) {
+  if (t) {
+    let usuarioPlanilha = String(t.usuario);
+    let senhaPlanilha = String(t.senha);
+    let digitadoD = String(d);
+    let digitadoE = String(e);
+
+    if (digitadoD === usuarioPlanilha && digitadoE === senhaPlanilha) {
+      sessionStorage.setItem("autenticado", "true");
+      s(t);
+    } else {
+      alert("Usuário ou Senha incorretos! Verifique os dados digitados.");
+      if (inputG) inputG.value = "";
+    }
+  } else {
     if (typeof URL_APPS_SCRIPT === "undefined" || !URL_APPS_SCRIPT || URL_APPS_SCRIPT.includes("SUA_URL_DO_GOOGLE_APPS_SCRIPT_AQUI")) {
       return void alert("Atenção: Configure a URL do Apps Script no arquivo config.js!");
     }
@@ -36,7 +46,12 @@ function f(c) {
       .then(c => c.json())
       .then(c => {
         t = c;
-        if (d === t.usuario && e === t.senha) {
+        let usuarioPlanilha = String(t.usuario);
+        let senhaPlanilha = String(t.senha);
+        let digitadoD = String(d);
+        let digitadoE = String(e);
+
+        if (digitadoD === usuarioPlanilha && digitadoE === senhaPlanilha) {
           sessionStorage.setItem("autenticado", "true");
           s(t);
         } else {
@@ -48,9 +63,6 @@ function f(c) {
         console.error("Erro ao conectar:", c);
         alert("Erro de conexão com o servidor.");
       });
-  } else {
-    alert("Usuário ou Senha incorretos! Verifique os dados digitados.");
-    if (inputG) inputG.value = "";
   }
 }
 
