@@ -1,1 +1,121 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Acesso do Operador - Urna Escolar</title><link rel="stylesheet" href="index.css"></head><body><div class="A"><div id="B"><h2>Autenticação do Operador</h2><form onsubmit="f(event)"><div class="C"><label for="D">Usuário do Operador:</label><input type="text" id="D" class="E" placeholder="Digite o usuário" required autocomplete="off"></div><div class="F"><label for="G">Senha do Operador:</label><input type="text" id="G" class="E" placeholder="Digite a senha" required autocomplete="off"></div><button type="submit" class="H">Entrar no Sistema</button></form></div><div id="I" class="J"><h2>Cadastrar Chave Mestra</h2><p class="K">Primeiro acesso detectado! Cadastre a Chave Mestra de 6 dígitos numéricos que será usada nas votações e resultados.</p><form onsubmit="l(event)"><div class="C"><label for="L">Nova Chave Mestra (6 números):</label><input type="text" id="L" class="E" maxlength="6" pattern="\d{6}" placeholder="Ex: 123456" required autocomplete="off"></div><button type="submit" class="H">Salvar e Criptografar Chave</button></form></div></div><script src="config.js"></script><script src="index.js"></script></body></html>
+:root {
+  --fonte-geral: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--fonte-geral);
+}
+
+body {
+  background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  color: #333;
+}
+
+.A {
+  background-color: #fff;
+  width: 100%;
+  max-width: 440px;
+  padding: 40px 35px;
+  border-radius: 12px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+  border-top: 5px solid #0056b3;
+}
+
+h2 {
+  color: #1a252f;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  text-align: center;
+  letter-spacing: -0.5px;
+}
+
+.K {
+  font-size: 0.9rem;
+  color: #555;
+  text-align: center;
+  margin-bottom: 25px;
+  line-height: 1.4;
+  background-color: #eef5fc;
+  padding: 10px 14px;
+  border-left: 4px solid #0056b3;
+  border-radius: 4px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.C, .F {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+}
+
+label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #34495e;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.E {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 1.1rem;
+  border: 2px solid #cbd5e1;
+  border-radius: 8px;
+  background-color: #f8fafc;
+  transition: all 0.25s ease;
+  outline: 0;
+  -webkit-text-security: disc !important;
+  text-security: disc !important;
+}
+
+.E:focus {
+  border-color: #0056b3;
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgba(0, 86, 179, 0.15);
+}
+
+.H {
+  margin-top: 10px;
+  padding: 15px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  background-color: #0056b3;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(0, 86, 179, 0.3);
+}
+
+.H:hover {
+  background-color: #004085;
+  transform: translateY(-1px);
+}
+
+.H:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+.J {
+  display: none !important;
+}
