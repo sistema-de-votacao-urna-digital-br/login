@@ -1,1 +1,56 @@
-let t=null;function f(e){e.preventDefault();let o=document.getElementById("D"),a=document.getElementById("G");if(!o||!a){alert("Erro: Campos de usu\xe1rio ou senha n\xe3o encontrados no HTML.");return}let r=o.value.trim(),n=a.value.trim();let i="SELMA",c="3.1415926535";if(r===i&&n===c){sessionStorage.setItem("autenticado","true");sessionStorage.setItem("usuarioLogado","true");if(t){s(t)}else{if("undefined"==typeof URL_APPS_SCRIPT||!URL_APPS_SCRIPT||URL_APPS_SCRIPT.includes("SUA_URL_DO_GOOGLE_APPS_SCRIPT_AQUI")){s({chaveExiste:false});return}fetch(`${URL_APPS_SCRIPT}?acao=obterDadosIniciais`).then(e=>e.json()).then(e=>{t=e;s(t)}).catch(e=>{console.error("Erro ao conectar:",e);s({chaveExiste:false})})}}else{alert("Usu\xe1rio ou Senha incorretos! Verifique os dados digitados.");a&&(a.value="")}}function s(e){if(e&&e.chaveExiste){sessionStorage.setItem("usuarioLogado","true");sessionStorage.setItem("autenticado","true");window.location.href="menu.html"}else{let o=document.getElementById("B"),a=document.getElementById("I");o&&o.classList.add("J"),a&&a.classList.remove("J")}}function l(e){e.preventDefault();let o=document.getElementById("L");if(!o){alert("Erro: Campo da Chave Mestra n\xe3o encontrado no HTML.");return}let a=o.value.trim();if(6!==a.length||isNaN(a))return void alert("A Chave Mestra deve conter exatamente 6 n\xfameros!");fetch(URL_APPS_SCRIPT,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({acao:"salvarChave",chaveMestra:btoa(a)})}).then(e=>e.json()).then(e=>{"sucesso"===e.status?(sessionStorage.setItem("usuarioLogado","true"),sessionStorage.setItem("autenticado","true"),alert("Chave Mestra cadastrada com sucesso!"),window.location.href="menu.html"):alert("Erro ao salvar Chave Mestra no servidor.")}).catch(e=>{console.error("Erro de conex\xe3o ao salvar Chave Mestra:",e),alert("Falha de conex\xe3o com a planilha. Verifique a URL no config.js.")})}window.addEventListener("load",()=>{setTimeout(()=>{"undefined"!=typeof URL_APPS_SCRIPT&&URL_APPS_SCRIPT&&!URL_APPS_SCRIPT.includes("SUA_URL_DO_GOOGLE_APPS_SCRIPT_AQUI")&&fetch(`${URL_APPS_SCRIPT}?acao=obterDadosIniciais`).then(e=>e.json()).then(e=>{t=e}).catch(e=>console.error("Erro no pre-fetch:",e))},50)});
+let CHAVE_MESTRA = "123456";
+let t = null;
+
+function f(e){
+  e.preventDefault();
+  let o = document.getElementById("D"), a = document.getElementById("G");
+  if(!o || !a){
+    alert("Erro: Campos de usu\xe1rio ou senha n\xe3o encontrados no HTML.");
+    return;
+  }
+  let r = o.value.trim(), n = a.value.trim();
+  let i = "SELMA", c = "3.1415926535";
+  if(r === i && n === c){
+    sessionStorage.setItem("autenticado", "true");
+    sessionStorage.setItem("usuarioLogado", "true");
+    s({ chaveExiste: false });
+  } else {
+    alert("Usu\xe1rio ou Senha incorretos! Verifique os dados digitados.");
+    a && (a.value = "");
+  }
+}
+
+function s(e){
+  if(e && e.chaveExiste){
+    sessionStorage.setItem("usuarioLogado", "true");
+    sessionStorage.setItem("autenticado", "true");
+    window.location.href = "menu.html";
+  } else {
+    let o = document.getElementById("B"), a = document.getElementById("I");
+    o && o.classList.add("J");
+    a && a.classList.remove("J");
+  }
+}
+
+function l(e){
+  e.preventDefault();
+  let o = document.getElementById("L");
+  if(!o){
+    alert("Erro: Campo da Chave Mestra n\xe3o encontrado no HTML.");
+    return;
+  }
+  let a = o.value.trim();
+  if(6 !== a.length || isNaN(a)) return void alert("A Chave Mestra deve conter exatamente 6 n\xfameros!");
+  
+  if(a === CHAVE_MESTRA){
+    sessionStorage.setItem("usuarioLogado", "true");
+    sessionStorage.setItem("autenticado", "true");
+    alert("Chave Mestra validada com sucesso!");
+    window.location.href = "menu.html";
+  } else {
+    alert("Chave Mestra incorreta!");
+    o && (o.value = "");
+  }
+}
+
+window.addEventListener("load", () => {});
