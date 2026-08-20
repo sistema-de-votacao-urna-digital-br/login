@@ -1,1 +1,1 @@
-function M(){window.location.href="votacao.html"}function N(){window.location.href="resultados.html"}
+window.addEventListener("DOMContentLoaded",()=>{if(!sessionStorage.getItem("usuarioLogado")){window.location.href="index.html";}});function M(){window.location.href="votacao.html"}function N(){window.location.href="resultados.html"}
